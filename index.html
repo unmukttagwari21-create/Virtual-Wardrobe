@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Belle Époque — Virtual Wardrobe</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">BÉ</span> Belle Époque</div>
+    <div class="top-note">Where fashion meets your imagination</div>
+  </header>
+
+  <div class="layout">
+
+    <aside>
+      <div class="side-label">Workspace</div>
+
+      <nav class="nav" aria-label="Main navigation">
+        <button class="active" data-view="closet"><span class="symbol">▦</span> My closet</button>
+        <button data-view="outfits"><span class="symbol">✳</span> Outfit studio</button>
+        <button data-view="inspiration"><span class="symbol">✧</span> Inspiration match</button>
+        <button data-view="favorites"><span class="symbol">♡</span> Favorites</button>
+      </nav>
+
+      <div class="side-label">Your collection</div>
+
+      <div class="side-card">
+        <strong>A mood called fashion.</strong>
+        <p>Because fashion isn't just what you wear, it's the mood you create.</p>
+      </div>
+    </aside>
+
+    <main>
+
+      <!-- MY CLOSET SECTION -->
+      <section class="view active" id="closet-view">
+
+        <div class="hero">
+          <div>
+            <div class="eyebrow">Your wardrobe diaries</div>
+            <h1>Your style,<br>curated beautifully.</h1>
+            <p class="subtitle">A collection of pieces that feel like you.</p>
+          </div>
+
+          <button class="primary" id="open-add">＋ Add a piece</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="label">Total pieces</div>
+            <div class="value" id="total-count">0</div>
+          </div>
+
+          <div class="stat">
+            <div class="label">Outfits saved</div>
+            <div class="value" id="outfit-count">0</div>
+          </div>
+
+          <div class="stat">
+            <div class="label">Your favorites</div>
+            <div class="value" id="favorite-count">0</div>
+          </div>
+        </div>
+
+        <div class="toolbar">
+
+          <div class="tabs" id="category-tabs">
+            <button class="tab active" data-category="All">All pieces</button>
+            <button class="tab" data-category="Tops">Tops</button>
+            <button class="tab" data-category="Bottoms">Bottoms</button>
+            <button class="tab" data-category="Dresses">Dresses</button>
+            <button class="tab" data-category="Shoes">Shoes</button>
+            <button class="tab" data-category="Accessories">Accessories</button>
+          </div>
+
+          <input class="search" id="search" type="search" placeholder="Search your closet…" aria-label="Search wardrobe">
+
+        </div>
+
+        <div class="closet-grid" id="closet-grid"></div>
+
+      </section>
+
+
+      <!-- FAVORITES SECTION -->
+      <section class="view" id="favorites-view">
+
+        <div class="hero">
+          <div>
+            <div class="eyebrow">The outfit obsession</div>
+            <h1>Your current crushes</h1>
+            <p class="subtitle">Looks too good to leave behind.</p>
+          </div>
+        </div>
+
+        <div class="closet-grid" id="favorites-grid"></div>
+
+      </section>
+
+
+      <!-- INSPIRATION MATCHER SECTION -->
+      <section class="view" id="inspiration-view">
+
+        <div class="hero">
+          <div>
+            <div class="eyebrow">Steal the vibe, not the outfit</div>
+            <h1>Your style match</h1>
+            <p class="subtitle">Find similar shades and pieces hiding in your own wardrobe.</p>
+          </div>
+        </div>
+
+        <div class="inspo-layout">
+
+          <div class="panel">
+
+            <h3>Your inspiration</h3>
+
+            <div class="inspo-preview" id="inspo-preview">
+              <div>
+                <div style="font-size:38px;margin-bottom:8px">✧</div>
+                <strong>Your outfit inspiration goes here</strong>
+                <p class="notice">Choose a picture to begin matching.</p>
+              </div>
+            </div>
+
+            <label for="inspo-file">Upload inspiration photo</label>
+            <input class="field" id="inspo-file" type="file" accept="image/*">
+
+            <label for="inspo-focus">What do you want to match?</label>
+
+            <select class="field" id="inspo-focus">
+              <option value="All">Full outfit (all categories)</option>
+              <option value="Tops">Tops</option>
+              <option value="Bottoms">Bottoms</option>
+              <option value="Dresses">Dresses</option>
+              <option value="Shoes">Shoes</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Bags">Bags</option>
+            </select>
+
+            <div class="swatches" id="inspo-swatches" aria-label="Colors found in inspiration"></div>
+
+            <button class="primary" id="find-matches" style="width:100%" disabled>
+              Find similar pieces
+            </button>
+
+            <p class="notice">
+              Runs in your browser only. Matching uses image colors and your selected categories; it does not use an online AI service.
+            </p>
+
+          </div>
+
+          <div>
+
+            <div class="panel">
+
+              <h3>Your closet matches</h3>
+
+              <p class="subtitle" id="match-description">
+                Upload an inspiration picture, then find the closest color matches among your wardrobe photos.
+              </p>
+
+              <div class="match-results" id="match-results" style="margin-top:16px"></div>
+
+              <div class="inspo-actions">
+                <button class="primary" id="use-matches" disabled>
+                  Use matches in Outfit Studio
+                </button>
+
+                <button class="secondary" id="save-matches" disabled>
+                  Save as an outfit
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- OUTFIT STUDIO SECTION -->
+      <section class="view" id="outfits-view">
+
+        <div class="hero">
+          <div>
+            <div class="eyebrow">It's a fit check moment</div>
+            <h1>The fit factory</h1>
+            <p class="subtitle">Create, experiment and save your next favourite fit.</p>
+          </div>
+        </div>
+
+        <div class="outfit-layout">
+
+          <div>
+
+            <div class="outfit-board" id="outfit-board">
+
+              <div class="outfit-slot" data-slot="Tops">
+                <span style="font-size:27px">＋</span>
+                <span>Choose a top</span>
+              </div>
+
+              <div class="outfit-slot" data-slot="Bottoms">
+                <span style="font-size:27px">＋</span>
+                <span>Choose a bottom</span>
+              </div>
+
+              <div class="outfit-slot" data-slot="Dresses">
+                <span style="font-size:27px">＋</span>
+                <span>Or choose a dress</span>
+              </div>
+
+              <div class="outfit-slot" data-slot="Shoes">
+                <span style="font-size:27px">＋</span>
+                <span>Choose shoes</span>
+              </div>
+
+            </div>
+
+            <h2 class="section-title">Saved looks</h2>
+
+            <div class="saved-outfits" id="saved-outfits"></div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <h3>Create a look</h3>
+
+            <label for="outfit-name">Outfit name</label>
+            <input class="field" id="outfit-name" placeholder="e.g. Coffee date">
+
+            <label for="picker-category">Choose category</label>
+
+            <select class="field" id="picker-category">
+              <option>Tops</option>
+              <option>Bottoms</option>
+              <option>Dresses</option>
+              <option>Shoes</option>
+              <option>Accessories</option>
+              <option>Bags</option>
+            </select>
+
+            <div class="picker-list" id="picker-list"></div>
+
+            <button class="primary" id="save-outfit" style="width:100%">
+              Save this outfit
+            </button>
+
+            <p class="notice">
+              Tip: choose one item from each category. A dress can be styled on its own with shoes and accessories.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <div class="footer">
+        Made for your everyday style · Stored locally on this device
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+
+<!-- ADD NEW CLOTHING ITEM MODAL -->
+<div class="modal-backdrop" id="add-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+  <div class="modal">
+
+    <div class="modal-head">
+      <h2 id="modal-title">Add a new piece</h2>
+      <button class="close" id="close-modal" aria-label="Close">×</button>
+    </div>
+
+    <form id="add-form">
+
+      <div class="form-grid">
+
+        <div class="full">
+          <label class="form-label" for="item-name">Item name *</label>
+          <input class="field" id="item-name" required maxlength="70" placeholder="e.g. Black satin top">
+        </div>
+
+        <div>
+          <label class="form-label" for="item-category">Category *</label>
+          <select class="field" id="item-category" required>
+            <option>Tops</option>
+            <option>Bottoms</option>
+            <option>Dresses</option>
+            <option>Shoes</option>
+            <option>Accessories</option>
+            <option>Bags</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label" for="item-color">Color</label>
+          <select class="field" id="item-color">
+            <option>Black</option>
+            <option>White</option>
+            <option>Beige</option>
+            <option>Brown</option>
+            <option>Blue</option>
+            <option>Pink</option>
+            <option>Green</option>
+            <option>Red</option>
+            <option>Grey</option>
+            <option>Gold</option>
+            <option>Silver</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label class="form-label">Photo (optional)</label>
+          <div class="upload">
+            Choose a photo from your device
+            <input id="item-photo" type="file" accept="image/*">
+          </div>
+        </div>
+
+      </div>
+
+      <p class="notice">
+        Photos are kept in this browser only. For best results, use small images so you don't fill browser storage.
+      </p>
+
+      <button class="primary" type="submit" style="width:100%;margin-top:15px">
+        Add to my closet
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
